@@ -1,0 +1,78 @@
+<include file="Public/mobile_head"/>
+<link href="{:ADDON_PUBLIC_PATH}/ss_base2.css?v={:SITE_VERSION}" rel="stylesheet">
+<link href="{:ADDON_PUBLIC_PATH}/msj_m.css?v={:SITE_VERSION}" rel="stylesheet">
+
+
+<body>
+<header class="m_list_header" id="m_list_header">
+	<div class="m_list_header_w">
+		<h1>{$data.title}</h1>
+		<a href="javascript:history.go(-1);" class="m_backbtn" id="m_backbtn"></a>
+		<a href="javascript:history.go(-2);" class="m_homebtn" id="m_homebtn"></a>
+		
+	</div>
+</header>
+<div class="m_content_main" id="m_content_main">
+	<article>
+		
+      
+		<img src="{:ADDON_PUBLIC_PATH}/b.jpg" class="m_con_topimg">		<div class="m_con_w">
+			<p class="author">发布时间:{:date("Y-m-d",strtotime("+1 year"))}</p>			<section class="m_con_sec">
+				<h2><img src="{:ADDON_PUBLIC_PATH}/1.png" class="con_icon"></h2>
+				<ul style="line-height:26px;">
+						{$data.culture}		</ul>
+			</section>	
+            
+            <section class="m_con_sec">
+				<h2><img src="{:ADDON_PUBLIC_PATH}/2.png" class="con_icon"></h2>
+				<ul class="clearfix">
+					<dt>招聘职位：{$data.title}	</dt>			<br><li>招聘人数：{$data.number}</li>	<li>性别要求：{$data.gender}</li>	<br><br>					<dt>每月薪资：{$data.salary}</dt>					</ul>
+			</section>	
+            
+              <section class="m_con_sec">
+				<h2><img src="{:ADDON_PUBLIC_PATH}/3.png" class="con_icon"></h2>
+				<ul class="clearfix">
+				<li>学历要求：{$data.education}</li>	<li>工作年限：{$data.experience}</li>			<br><br>		<li>工作地点：{$data.area}</li>	<li>吃住待遇：{$data.welfare}</li>											</ul>
+			</section>	
+            
+            
+            		<section class="m_con_secs">
+				<h2><img src="{:ADDON_PUBLIC_PATH}/prxjq.gif" class="con_icon"></h2>
+				<dl class="clearfix">
+				               
+                              {$data.description} 
+                               
+                               
+								</dl>
+			</section>	
+            
+            		<section class="m_con_secs">
+				<h2><img src="{:ADDON_PUBLIC_PATH}/prxjqs.gif" class="con_icon"></h2>
+				<dl class="clearfix">
+				               
+                              {$data.qualifications} 
+                               
+                               
+								</dl>
+			</section>	
+            
+            
+             <section class="m_con_sec">
+				<h2><img src="{:ADDON_PUBLIC_PATH}/5.png" class="con_icon"></h2>
+				<ul class="clearfix">
+					<dt>联系人：{$data.contacts}</dt>	<br><dt>联系电话：{$data.mobile}</dt><br><dt>联系地址：{$data.address}</dt>						</ul>
+			</section>	
+            
+            
+            
+			<section class="m_con_sec">
+				<br><br>
+				<div class="m_comment_w">
+								<a href="tel:{$data.mobile}" class="m_comment_btn" ">我要应聘 >>></a>
+				</div>
+			</section>
+		</div>
+	</article>
+   
+	<div class="m_copyright"><span>Copyright 2003-2014 技术支持:绿墨白</span></div></div>
+</div></body></html>

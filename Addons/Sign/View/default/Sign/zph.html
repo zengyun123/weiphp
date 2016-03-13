@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>签到 - 积分总排行榜 - 景圣生活</title>
+	<meta name="format-detection" content="telephone=no, address=no">
+	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
+	<meta name="apple-touch-fullscreen" content="yes"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<link rel="shortcut icon" href="http://weixin.lsu.edu.cn/attachment/images/global/wechat.jpg" />
+	<link href="http://weixin.lsu.edu.cn/app/resource/css/bootstrap.min.css" rel="stylesheet">
+	<link href="http://weixin.lsu.edu.cn/app/resource/css/font-awesome.min.css" rel="stylesheet">
+	<link href="http://weixin.lsu.edu.cn/app/resource/css/animate.css" rel="stylesheet">
+	<link href="http://weixin.lsu.edu.cn/app/resource/css/common.css" rel="stylesheet">
+	<link href="http://weixin.lsu.edu.cn/app/index.php?i=7&c=utility&a=style&" rel="stylesheet">
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+	<script src="http://weixin.lsu.edu.cn/app/resource/js/require.js"></script>
+	<script src="http://weixin.lsu.edu.cn/app/resource/js/app/config.js"></script>
+	<script type="text/javascript" src="http://weixin.lsu.edu.cn/app/resource/js/lib/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript">
+	if(navigator.appName == 'Microsoft Internet Explorer'){
+		if(navigator.userAgent.indexOf("MSIE 5.0")>0 || navigator.userAgent.indexOf("MSIE 6.0")>0 || navigator.userAgent.indexOf("MSIE 7.0")>0) {
+			alert('您使用的 IE 浏览器版本过低, 推荐使用 Chrome 浏览器或 IE8 及以上版本浏览器.');
+		}
+	}
+		window.sysinfo = {
+		'uniacid': '7',
+		'acid': '7',
+		'siteroot': 'http://weixin.lsu.edu.cn/',
+		'siteurl': 'http://weixin.lsu.edu.cn/app/index.php?i=7&c=entry&rank=all&rid=813&do=home&m=superman_sign',
+		'attachurl': 'http://weixin.lsu.edu.cn/attachment/',
+		'MODULE_URL': 'http://weixin.lsu.edu.cn/addons/superman_sign/',
+		'cookie' : {'pre': '0435_'}
+	};
+	
+	// jssdk config 对象
+	jssdkconfig = null || {};
+	
+	// 是否启用调试
+	jssdkconfig.debug = false;
+	
+	jssdkconfig.jsApiList = [
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ',
+		'onMenuShareWeibo',
+		'hideMenuItems',
+		'showMenuItems',
+		'hideAllNonBaseMenuItem',
+		'showAllNonBaseMenuItem',
+		'translateVoice',
+		'startRecord',
+		'stopRecord',
+		'onRecordEnd',
+		'playVoice',
+		'pauseVoice',
+		'stopVoice',
+		'uploadVoice',
+		'downloadVoice',
+		'chooseImage',
+		'previewImage',
+		'uploadImage',
+		'downloadImage',
+		'getNetworkType',
+		'openLocation',
+		'getLocation',
+		'hideOptionMenu',
+		'showOptionMenu',
+		'closeWindow',
+		'scanQRCode',
+		'chooseWXPay',
+		'openProductSpecificView',
+		'addCard',
+		'chooseCard',
+		'openCard'
+	];
+	
+	</script>
+	
+	<script>
+	function _removeHTMLTag(str) {
+		if(typeof str == 'string'){
+			str = str.replace(/<script[^>]*?>[\s\S]*?<\/script>/g,'');
+			str = str.replace(/<style[^>]*?>[\s\S]*?<\/style>/g,'');
+			str = str.replace(/<\/?[^>]*>/g,'');
+			str = str.replace(/\s+/g,'');
+			str = str.replace(/&nbsp;/ig,'');
+		}
+		return str;
+	}
+	</script>
+</head>
+<php>$param['openid']=I('get.openid');</php>
+<body>
+<div class="container container-fill">
+<style>
+	body{}
+	/*个人中心*/
+	.pcenter-main .head{position:relative; height:170px; width:100%; background:url('http://wechat.mzsyxx.com/addons/SignView/view/default/Public/images/head-bg.png') no-repeat center center; background-size:100% auto; -moz-background-size:100% auto; -webkit-background-size:100% auto;}
+	.pcenter-main .head .pdetail{height:120px; padding:30px 0 0 20px; -webkit-box-sizing:border-box;}
+	.pcenter-main .head .pdetail .img-circle{float:left; width:66px; height:66px; overflow:hidden; margin-right:10px; border:1px rgba(255,255,255,0.2) solid;}
+	.pcenter-main .head .pdetail .img-circle img{width:66px;}
+	.pcenter-main .head .pdetail .pull-left span{display:block; color:#FFF; line-height:20px;}
+	.pcenter-main .head .pdetail .pull-left span.name{font-size:20px; display:inline-block; max-width:150px; height:25px; line-height:25px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; word-break:keep-all;}
+	.pcenter-main .head .pdetail .pull-left span.type{font-size:14px;}
+	.pcenter-main .head .head-nav{height:50px; line-height:20px; padding-top:7px; background:rgba(0,0,0,0.2);}
+	.pcenter-main .head .head-nav .head-nav-list{display:inline-block; float:left; text-decoration:none; color:#FFF;  width:25%; text-align:center; font-size:16px; background:-webkit-gradient(linear, 0 0, 0 100, from(rgba(255,255,255,0.5)), to(rgba(255,255,255,0.5)) ) no-repeat left center; -webkit-background-size:1px 75%;}
+	.pcenter-main .head .head-nav .head-nav-list:first-child{background:none;}
+	.pcenter-main .head .head-nav .head-nav-list > span{font-weight:bold; display:block; font-size:14px;}
+	/*竖排导航条 通用*/
+	.mnav-box ul{padding:10px 15px 0 15px;font-family:Helvetica, Arial, sans-serif;}
+	.mnav-box ul li{padding:10px 15px;}
+	.pcenter-main .profile{width:100%;background:transparent url('resource/images/home-bg.jpg') no-repeat; background-size:cover;}
+	.pcenter-main .profile .tabbable>ul{padding:10px 15px 0px 15px;}
+	.pcenter-main .profile .tabbable .nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus{color:#5ac5d4;background-color:#E9F7F8;}
+	.pcenter-main .profile label{color:#555; font-weight:lighter; margin-top:5px;}
+	.pcenter-main .rank-list-wrap {margin: 15px 5px;}
+	.pcenter-main .btn-group-top {width: 100%;}
+	.pcenter-main .btn-default {width: 33.33%;}
+	.pcenter-main .rank-list-wrap table td {border-color:#ececec; text-align: center;}
+	.pcenter-main .rank-list-wrap table th {border-top-width:0;text-align: center;}
+	.pcenter-main .rank-list-wrap .rank1 {background-color:#e43600;}
+	.pcenter-main .rank-list-wrap .rank2 {background-color:#ff7c00;}
+	.pcenter-main .rank-list-wrap .rank3 {background-color:#2baf0f;}
+	.pcenter-main .rank-list-wrap .rankx {background-color:#ccc;}
+	.ad_wrap {margin: 5px 5px 0 5px;}
+</style>
+<div class="pcenter-main">
+	<div class="head clearfix">
+		<div class="pdetail">
+			<div class="img-circle">
+				<a>
+				<img src="" onerror="this.src='{$info['headimgurl']}'">
+				</a>
+			</div>
+			<div style="line-height: 66px; font-size: 16px;">
+				<span class="name">
+										<div style="color: #f00;">{$info['nickname']}</div>
+									</span>
+			</div>
+		</div>
+
+		<div class="head-nav">
+			<a class="head-nav-list" href="javascript:;">今日排名<span>第{$user['ranking']}名</span></a>
+			<a class="head-nav-list" href="javascript:;">今日奖励<span>{$user['integral']}积分</span></a>
+			<a class="head-nav-list" href="javascript:;">连续签到<span>{$for}天</span></a></span></a>
+			<a class="head-nav-list" href="javascript:;">累计签到<span>{$renum}次</span></a>
+		</div>
+	</div>
+
+	
+	<div class="rank-list-wrap">
+	  <div class="btn-group-top-box">
+			<div class="btn-group btn-group-top">
+			  <a href="<php>echo addons_url('SignView://SignView/index',$param);</php>" class="btn btn-default ">今日排行榜</a>
+			  <a href="#" class="btn btn-default active">积分排行榜</a>
+				<a href="<php>echo addons_url('SignView://SignView/lq',$param);</php>" class="btn btn-default ">连签排行榜</a>
+			</div>
+		</div>
+		
+				<table class="table">
+						<tr>
+				<th>排名</th>
+				<th>昵称</th>
+				<th>总积分</th>
+			</tr>
+			<volist id='vo' name="sum" key='k'>
+						<tr>
+				<td>
+					<span class="badge rank1">{$k}</span>
+				</td>
+				<td>
+					{$vo.nickname}	</td>
+				<td>
+					{$vo.jf}				</td>
+			</tr>
+			</volist>
+			
+								</table>
+		
+		
+	</div>
+
+		<div class="ad_wrap">
+		<section id="1_367" class="yead_editor" label="Copyright © 2015 Yead All Rights Reserved." style="margin: 5px auto; white-space: normal;"><section class="yead_bgc" style="font-size: 30px; padding: 30px; text-transform: uppercase; text-align: center; color: rgb(255, 255, 238); border-color: rgb(192, 135, 222); background: rgb(255, 57, 31);"><p class="yead_color" style="color: rgb(255, 57, 31); text-shadow: rgba(0, 0, 1, 0.4) -1px -1px 1px, rgba(255, 255, 254, 0.498039) 1px 1px 1px; font-weight: 800; margin-top: 0px; margin-bottom: 0px; border-color: rgb(159, 30, 225);"><span style="font-size: 20px;"><strong><span style="font-size: 20px; color: rgb(255, 255, 255);">景圣生活签到测试版</span></strong></span></p></section></section>	</div>
+	</div>
+<!--<nav class="navbar navbar-default navbar-fixed-bottom">
+	<div class="container" style="text-align: center">
+		<button type="button" style="width: 50%" class="btn btn-success navbar-btn">分享</button>
+	</div>
+</nav>-->
+					<div class="text-center footer" style="margin:10px 0; width:100%; text-align:center; word-break:break-all;">
+								&nbsp;&nbsp;			</div>
+						<script>require(['bootstrap']);</script>
+	</div>
+	<style>
+		h5{color:#555;}
+	</style>
+	<script type="text/javascript">
+	
+	wx.config(jssdkconfig);
+	
+	var $_share = {"title":"\u4e3d\u6c34\u5b66\u9662","imgUrl":"","desc":"","link":"http:\/\/weixin.lsu.edu.cn\/app\/index.php?i=7&c=entry&rank=all&rid=813&do=home&m=superman_sign"};
+	
+	if(typeof sharedata == 'undefined'){
+		sharedata = $_share;
+	} else {
+		sharedata['title'] = sharedata['title'] || $_share['title'];
+		sharedata['desc'] = sharedata['desc'] || $_share['desc'];
+		sharedata['link'] = sharedata['link'] || $_share['link'];
+		sharedata['imgUrl'] = sharedata['imgUrl'] || $_share['imgUrl'];
+	}
+
+	function tomedia(src) {
+		if(typeof src != 'string')
+			return '';
+		if(src.indexOf('http://') == 0 || src.indexOf('https://') == 0) {
+			return src;
+		} else if(src.indexOf('../addons') == 0 || src.indexOf('../attachment') == 0) {
+			src=src.substr(3);
+			return window.sysinfo.siteroot + src;
+		} else if(src.indexOf('./resource') == 0) {
+			src=src.substr(2);
+			return window.sysinfo.siteroot + 'app/' + src;
+		} else if(src.indexOf('images/') == 0) {
+			return window.sysinfo.attachurl+ src;
+		}
+	}
+	
+	if(sharedata.imgUrl == ''){
+		var _share_img = $('body img:eq(0)').attr("src");
+		if(_share_img == ""){
+			sharedata['imgUrl'] = window.sysinfo.attachurl + 'images/global/wechat_share.png';
+		} else {
+			sharedata['imgUrl'] = tomedia(_share_img);
+		}
+	}
+	
+	if(sharedata.desc == ''){
+		var _share_content = _removeHTMLTag($('body').html());
+		if(typeof _share_content == 'string'){
+			sharedata.desc = _share_content.replace($_share['title'], '')
+		}
+	}
+	
+	wx.ready(function () {
+		wx.onMenuShareAppMessage(sharedata);
+		wx.onMenuShareTimeline(sharedata);
+		wx.onMenuShareQQ(sharedata);
+		wx.onMenuShareWeibo(sharedata);
+	});
+		</script>
+	<script>
+		require(['jquery'],function(){
+			$(function(){
+				if($('.quick')!=null && $('.quick')!=''){
+					var h = $('.quick').height()+'px';
+					$('body').css("padding-bottom",h);
+				}else{
+					$('body').css("padding-bottom", "0");
+				}
+			})
+		});
+	</script>
+</body>
+</html>

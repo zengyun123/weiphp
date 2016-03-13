@@ -1,0 +1,98 @@
+<extend name="Base/mobile_common" />
+<block name="style">
+	<style type="text/css">
+		.feedback-form{
+    		margin-top: 10px;
+    	}
+    	.ui-form-textarea.ui-form-item{
+    		height: auto;
+    	}
+    	.ui-form-textarea.ui-form-item textarea{
+    		padding: 15px 0;
+    	}
+    	input[type='text']{
+    		height: 44px;
+    	}
+	</style>
+</block>
+<block name="header">
+	<header class="ui-header ui-header-stable ui-border-b">
+	    <i class="ui-icon-return"></i><h1>意见反馈</h1>
+	</header>
+</block>
+<block name="body">
+	<section class="ui-container feedback-form">
+		<div class="ui-form ui-border-t">
+		    <form method="post">
+		        <div class="ui-form-textarea ui-form-item ui-form-item-pure ui-border-b">
+		            <textarea name="content" id="content" rows="7" placeholder="反馈内容"></textarea>
+		        </div>
+
+		        <if condition="$need_nickname">
+                <div class="ui-form-item ui-form-item-pure ui-border-b">
+                    <input type="text" placeholder="您的姓名" name="nickname" id="nickname" value="{$user.nickname}">
+                    <a href="#" class="ui-icon-close"></a>
+                </div>
+            	</if>
+
+		        <if condition="$need_mobile">
+		        <div class="ui-form-item ui-form-item-pure ui-border-b">
+                    <input type="text" placeholder="QQ号/手机号/邮箱" name="mobile" id="mobile" value="{$user.mobile}">
+                    <a href="#" class="ui-icon-close"></a>
+                </div>
+                </if>
+
+		        <div class="ui-btn-wrap">
+				    <a class="ui-btn-lg ui-btn-primary" id="submit">
+				        提交
+				    </a>
+				</div>
+		    </form>
+		</div>
+	</section>
+</block>
+
+<block name="footer"></block>
+
+<block name="script">
+	<script type="text/javascript">
+		// 返回按钮触发事件
+		$(".ui-icon-return").tap(function(){
+			closepage();
+		});
+
+		// 清除输入事件
+		$(".ui-icon-close").tap(function(){
+			$(this).siblings("input[type='text']").val('');
+			$(this).siblings("input[type='text']").focus();
+		});
+
+		// 表单提交事件
+		$("#submit").tap(function(){
+			
+			var content = $("#content");
+			var nickname = $("#nickname");
+			var mobile = $("#mobile");
+			if(content.val()==''){
+				tips("反馈内容不能为空",content);
+				return false;
+			}
+			if(nickname.val()==''){
+				tips("姓名不能为空",nickname);
+				return false;
+			}
+			if(mobile.val()==''){
+				tips("联系方式不能为空",mobile);
+				return false;
+			}
+
+			var url = "{:U('suggest','','')}";
+			var data = "method=ajax&content="+content.val()+"&nickname="+nickname.val()+"&mobile="+mobile.val();
+			var successMsg = "您的反馈内容我们已经收到，感谢您的支持!";
+			var errorMsg = "反馈提交失败，请重新提交您的反馈内容！";
+			ajax(url,data,successMsg,errorMsg);
+		    
+		    return false;
+		});
+	</script>
+</block>

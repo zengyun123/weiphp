@@ -1,0 +1,3 @@
+<?php
+//000000000000a:20:{s:2:"id";s:1:"2";s:3:"uid";s:1:"2";s:11:"public_name";s:18:"微信测试账户";s:9:"public_id";s:15:"gh_8fc878db07c6";s:6:"wechat";s:18:"微信测试账户";s:13:"interface_url";N;s:15:"interface_token";s:7:"ekeylee";s:12:"headface_url";s:0:"";s:4:"area";N;s:12:"addon_config";N;s:12:"addon_status";s:6:"{"":0}";s:5:"token";s:15:"gh_8fc878db07c6";s:6:"is_use";s:1:"0";s:4:"type";s:1:"3";s:5:"appid";s:18:"wxcd1c038f84fe700e";s:6:"secret";s:32:"ff644f1bf1222856b71eb58ae53b4e24";s:8:"group_id";s:1:"0";s:14:"encodingaeskey";s:0:"";s:8:"tips_url";N;s:6:"domain";N;}
+?>

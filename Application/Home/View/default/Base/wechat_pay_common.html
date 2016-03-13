@@ -1,0 +1,75 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width,height=device-height,inital-scale=1.0,maximum-scale=1.0,user-scalable=no;" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+		<meta name="format-detection" content="telephone=no" />
+		
+		<block name="head"></head>
+		<block name="style"></block>
+		
+		<title>
+			<block name="title">
+				微信支付
+			</block>
+		</title>
+
+		<link rel="stylesheet" type="text/css" href="__WEUI__/css/weui.css">
+		<link rel="stylesheet" type="text/css" href="__WEUI__/css/weui.min.css">
+		<link rel="stylesheet" type="text/css" href="__WEUI__/css/example.css">
+		<script type="text/javascript" src="__WEUI__/js/example.js"></script>
+
+		<script src="//cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+		<script type="text/javascript">
+
+			function pay(price,orderid,params,payokFunc,paycancelFunc,payfailFunc){
+				var url = "{:U('Base/json_pay','','')}";
+				var price = price;
+				if (!price) {
+					price = 0.01;
+				}
+				$.ajax({
+					url : url,
+					type : "post",
+					dataType : "json",
+					data : "price="+price+"&orderid="+orderid,
+					success : function(data){
+						var json_str = data;
+						var json_obj = JSON.parse(json_str);
+						callpay(json_obj,params,payokFunc,paycancelFunc,payfailFunc);
+					},
+					error : function(){
+						alert("error");
+					}
+				});
+			}
+
+			function callpay(json_obj,params,payokFunc,paycancelFunc,payfailFunc){
+
+				WeixinJSBridge.invoke("getBrandWCPayRequest",json_obj,function(res){
+					WeixinJSBridge.log(res.err_msg);
+					if(res.err_msg=="get_brand_wcpay_request:ok"){
+						payokFunc(params);
+					}else{
+						if(res.err_msg == "get_brand_wcpay_request:cancel"){
+							paycancelFunc(params);
+						}else if(res.err_msg == "get_brand_wcpay_request:fail"){
+							payfailFunc(params);
+						}else{
+							var err_msg = res.err_msg +"<br/>"+res.err_desc;
+						}
+						
+					}
+				});
+			}
+
+		</script>
+
+	</head>
+
+	<block name="body"></block>
+
+	<block name="script"></block>
+
+</html>
