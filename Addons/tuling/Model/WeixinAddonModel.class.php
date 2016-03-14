@@ -29,8 +29,30 @@ class WeixinAddonModel extends WeixinModel{
                     $url=$apiurl.'?key='.$apikey.'&info='.$the_talk.'&userid='.$openid;                    
                     set_user_status('tuling',$keywordArr);
                    
-                    $messign = json_decode ( http_get ( $url ), true );
-                    $this->replyText($messign['text']);
+                    $message = json_decode ( http_get ( $url ), true );
+                   // $this->replyText($message['text']);
+                    switch($message['code']){
+                        case 100000:
+                            $this->replyText($message['text']);
+                            break;
+                        case 200000:
+                            $this->replyText($message['text']."\n".$message['url']);
+                            break;
+                        case 302000:
+                            $text=$message['text'];
+                            $new_title=$message['list']['article'];
+                            $new_con=$message['list']['source'];
+                            $new_url=$message['list']['detailurl'];
+                            $arrnew[0]=array(
+                                'Title'=>$new_title,
+                                'Description'=>$new_con,
+                                'Url'=>$new_url
+                                
+                            );
+                            $this->replyNews($arrnew);
+                            break;
+                            
+                    }
                     }
                 }
 	}
