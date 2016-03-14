@@ -36,21 +36,33 @@ class WeixinAddonModel extends WeixinModel{
                             $this->replyText($message['text']);
                             break;
                         case 200000:
-                            $this->replyText($message['text']."\n".$message['url']);
+                           //  $url='<a href="'.$message['url'].'">点击查看排行</a>'."\n";
+                            $url='<a href="'.$message['url'].'">点我、点我，就能看见了哦~~</a>';
+                            $this->replyText($message['text']."\n".$url);
                             break;
                         case 302000:
                             $text=$message['text'];
-                            $new_title=$message['list']['article'];
-                            $new_con=$message['list']['source'];
-                            $new_url=$message['list']['detailurl'];
+                            $rand=rand(0,8);
+                            $list=$message['list'][$rand];                           
                             $arrnew[0]=array(
-                                'Title'=>$new_title,
-                                'Description'=>$new_con,
-                                'Url'=>$new_url
+                                'Title'=>$list['article'],
+                                'Description'=>'内容来自'.$list['source'],
+                                'Url'=>$list['detailurl']
                                 
                             );
                             $this->replyNews($arrnew);
                             break;
+                        case 308000:
+                            $rand=rand(0,8);
+                            $list=$message['list'][$rand];
+                            $arr[0]=array(
+                                'Title'=>$list['name'],
+                                'PicUrl'=>$list['icon'],
+                                'Description'=>$list['info'],
+                                'Url'=>$list['detailurl'],
+                                
+                            );
+                            $this->replyNews($arr);
                             
                     }
                     }

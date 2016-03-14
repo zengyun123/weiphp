@@ -5,18 +5,13 @@ use Home\Controller\AddonsController;
 
 class BugController extends AddonsController{
 		public function index(){
-                    echo '<meta charset="utf-8">';
-                    $url=getWeixinUserInfo('oq3rHsw-PefXwoChyJ3RSz-mvv7A');
-                    
-                    $content = file_get_contents ( $url);
-                    $content = json_decode ( $content, true );
-                   // var_dump( $content);
-                    //print_r( $content);
-            
-                   // echo json_encode($content['nickname']);
-                 //   echo $content['nickname'];
-                  var_dump(  deal_emoji($content['nickname'],0));
-                    
-                 //   print_r($content);
-		}
+        $apiurl='http://www.tuling123.com/openapi/api';
+        $apikey='cee7cceecfa35e3a21d6e1483853f8b0';
+        $openid='434343';
+        echo '<meta charset="utf-8">';
+         $url=$apiurl.'?key='.$apikey.'&info=青椒炒肉丝'.'&userid='.$openid;    
+        $message = json_decode ( http_get ( $url ), true );
+        print_r( $message['list']);
+        //print_r($message);
+    }
 }
