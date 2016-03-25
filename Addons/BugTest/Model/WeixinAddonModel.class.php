@@ -10,7 +10,8 @@ class WeixinAddonModel extends WeixinModel{
 	function reply($dataArr, $keywordArr = array()) {
 		$config = getAddonConfig ( 'BugTest' ); // 获取后台插件的配置参数	
 		//dump($config);
-                $this->replyText('BUrG11');
+                $unionid =userinfo_unionid();                
+                $this->replyText($unionid);
 	}
 }
         	

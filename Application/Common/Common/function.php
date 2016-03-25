@@ -1497,6 +1497,7 @@ function get_access_token($token = '') {
 	$tempArr = json_decode ( http_get ( $url ), true );
 	if (@array_key_exists ( 'access_token', $tempArr )) {
 		S ( $key, $tempArr ['access_token'], 7200 );
+              //  S($key,$tempArr['access_token'],null);
 		return $tempArr ['access_token'];
 	} else {
 		return 0;
@@ -3123,17 +3124,21 @@ function top_domain() {
 	}
 }
 // 处理带Emoji的数据，type=0表示写入数据库前的emoji转为HTML，为1时表示HTML转为emoji码
+function emoji_html($msg){
+   $tmpStr = json_encode($msg);
+   $tmpStr = preg_replace("#(\\\ue[0-9a-f]{3})#ie","addslashes('\\1')",$tmpStr); 
+    $text = json_decode($tmpStr);
+    echo '<link href="http://wechat.ekeylee.com/emoji/emoji.css" rel="stylesheet">';
+    include_once('emoji.php');
+    $msg=  emoji_unicode_to_html($text);
+    echo $msg;
+}
 function deal_emoji($msg, $type = 1) {
 	if ($type == 0) {
-		//$msg = json_encode ( $msg );
+
                 include_once('emoji.php');
-           //     $tmpStr = json_decode($msg); //暴露出unicode
-                $tmpStr = json_encode($msg);
-                $tmpStr=  str_replace('"', '', $tmpStr);
-                //$tmpStr = preg_replace("#(\\\ue[0-9a-f]{3})#ie","addslashes('\\1')",$tmpStr); //将emoji的unicode留下，其他不动
-               // $text = json_decode($tmpStr);
-                //$msg=$tmpStr;
-                $msg=emoji_unicode_to_html($tmpStr);
+             
+                $msg=emoji_unicode_to_html($msg);
                
 	} else {
 		$txt = json_decode ( $msg );
@@ -3141,7 +3146,7 @@ function deal_emoji($msg, $type = 1) {
 			$msg = $txt;
 		}
 	}
-	//echo $msg;
+	
 	return $msg;
 }
 //从微信下载多媒体文件
@@ -3955,18 +3960,29 @@ function sign_ranking($param){
     $info=M('sign')->where($param)->count();
     return $info;
 }
-function sign_ranking_all($uid){
+function sign_ranking_all($uid,$token){
+
      $date=array(
-            'token'=>get_token(),
+            'token'=>$token,
             'date'=>date('Y-m-d',time())
         );
         $info=M('sign')->where($date)->order('signtime ASC')->select();
         foreach($info as $k=>$v){          
-            if($v['uid']==$uid){
-                
-                return $k+1;
+            if($v['uid']==$uid){               
+                $num=$k+1;
+                return $num;
+                break;
             }
+
         }
    
 }
+function get_userinfo_nocache($uid){
+    $info=M('user')->where('uid='.$uid)->find();
+    return $info;
+}
+function test_uid(){
+    echo $this->mid();
+}
+
 

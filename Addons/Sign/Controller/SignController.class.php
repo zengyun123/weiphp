@@ -33,35 +33,55 @@ class SignController extends AddonsController{
                 $list_data = $this->_get_model_list ( $model );
 		
 		$this->assign ( $list_data );
-		// dump($list_data);
-
 		$this->display ();
 	}
-        function index(){
+        function index(){ 
             echo '<meta charset="utf-8">';
-            $token=S('token');
-            $openid=S('openid');
-            
-            $date=date('Y-m-d',time());
-            $user_info_data=array(
-                'token'=>$token,
-                'openid'=>$openid
+            $uid=I('uid');
+            $uid_data=array(
+                'uid'=>$uid,
             );
+            $userinfo=M('public_follow')->where($uid_data)->find();        
+            $param['token']=$userinfo['token'];
+            $param['openid']=$userinfo['openid'];
+            $date=date('Y-m-d',time());
             $date_arr=array(
-                'token'=>$token,
+                'token'=>$param['token'],
                 'date'=>$date,
             );
-            $sign_list=M('sign')->where($date_arr)->order('signtime ASC')->select();
-            $user_follow=M('public_follow')->where($user_info_data)->find();
-            $cache_data=array(
-                'uid'=>$user_follow['uid']
-            );
-            $sign_self=M('cache_sign')->where($cache_data)->find();
+            $sign_list=M('sign')->where($date_arr)->order('signtime ASC')->limit('10')->select();            
+            $sign_self=M('cache_sign')->where($uid_data)->find();
             $this->assign('user_self',$sign_self);
             $this->assign('sign_list',$sign_list);
-            $this->assign('ranking',sign_ranking_all($user_follow['uid']));
-            
+            $this->assign('ranking',sign_ranking_all($uid,$param['token']));
+
         $this->display();
+        }
+        
+        function zph(){
+           echo '<meta charset="utf-8">';
+           $uid['uid']=I('uid');
+           $userinfo=M('public_follow')->where($uid)->find(); 
+           $param['token']=$userinfo['token'];
+           $cache_sign=M('cache_sign')->where($param)->order('score DESC')->limit('10')->select();
+            $sign_self=M('cache_sign')->where($uid)->find();
+            $this->assign('user_self',$sign_self);
+           $this->assign('zph_list',$cache_sign);
+           $this->assign('ranking',sign_ranking_all($uid['uid'],$userinfo['token']));
+            $this->display();
+        }
+        
+        function lq(){
+            echo '<meta charset="utf-8">';
+            $uid['uid']=I('uid');
+            $userinfo=M('public_follow')->where($uid)->find();
+            $param['token']=$userinfo['token'];
+            $cache_sign=M('cache_sign')->where($param)->order('signlink DESC')->limit('10')->select();
+            $sign_self=M('cache_sign')->where($uid)->find();
+            $this->assign('ranking',sign_ranking_all($uid['uid'],$userinfo['token']));
+            $this->assign('user_self',$sign_self);
+            $this->assign('lq_list',$cache_sign);
+            $this->display();
         }
         
 
