@@ -95,7 +95,7 @@
 	}
 	</script>
 </head>
-<php>$param['openid']=I('get.openid');</php>
+<php>$param['uid']=I('uid');</php>
 <body>
 <div class="container container-fill">
 <style>
@@ -129,27 +129,33 @@
 	.pcenter-main .rank-list-wrap .rank3 {background-color:#2baf0f;}
 	.pcenter-main .rank-list-wrap .rankx {background-color:#ccc;}
 	.ad_wrap {margin: 5px 5px 0 5px;}
+        .container{position:relative;width:100%;min-height:50%;}
+        .body{padding-bottom:50px;}
+        .footer{height:60px;position:fixed;bottom:0px;left:0px;background:#2780b8}        
 </style>
 <div class="pcenter-main">
 	<div class="head clearfix">
 		<div class="pdetail">
 			<div class="img-circle">
 				<a>
-				<img src="" onerror="this.src='{$info['headimgurl']}'">
+                                    <php>$headimg=get_userinfo($user_self['uid']);</php>
+				<img src="" onerror="this.src='<php>echo $headimg['headimgurl']</php>'">
 				</a>
 			</div>
-			<div style="line-height: 66px; font-size: 16px;">
+			<div style=" font-size: 16px;">
 				<span class="name">
-										<div style="color: #f00;">{$info['nickname']}</div>
-									</span>
+                                    <div style="margin-top:25">
+                                <div style="color: #f00;"> <php>$nickname=get_userinfo_nocache($user_self['uid']);emoji_html($nickname['nickname']);</php></div>
+                                    </div>
+				</span>
 			</div>
 		</div>
 
 		<div class="head-nav">
-			<a class="head-nav-list" href="javascript:;">今日排名<span>第{$user['ranking']}名</span></a>
-			<a class="head-nav-list" href="javascript:;">今日奖励<span>{$user['integral']}积分</span></a>
-			<a class="head-nav-list" href="javascript:;">连续签到<span>{$for}天</span></a></span></a>
-			<a class="head-nav-list" href="javascript:;">累计签到<span>{$renum}次</span></a>
+			<div class="head-nav-list">今日排名<span>第{$ranking}名</span></div>
+			<div class="head-nav-list">今日奖励<span>10积分</span></div>
+			<div class="head-nav-list">连续签到<span>{$user_self['signlink']}天</span></div>
+			<div class="head-nav-list">累计签到<span>{$user_self['signcount']}次</span></div>
 		</div>
 	</div>
 
@@ -157,9 +163,9 @@
 	<div class="rank-list-wrap">
 	  <div class="btn-group-top-box">
 			<div class="btn-group btn-group-top">
-			  <a href="<php>echo addons_url('SignView://SignView/index',$param);</php>" class="btn btn-default ">今日排行榜</a>
+			  <a href="<php>echo addons_url('Sign://Sign/index',$param);</php>" class="btn btn-default ">今日排行榜</a>
 			  <a href="#" class="btn btn-default active">积分排行榜</a>
-				<a href="<php>echo addons_url('SignView://SignView/lq',$param);</php>" class="btn btn-default ">连签排行榜</a>
+				<a href="<php>echo addons_url('Sign://Sign/lq',$param);</php>" class="btn btn-default ">连签排行榜</a>
 			</div>
 		</div>
 		
@@ -169,15 +175,16 @@
 				<th>昵称</th>
 				<th>总积分</th>
 			</tr>
-			<volist id='vo' name="sum" key='k'>
+			<volist id='vo' name="zph_list" key='k'>
+                        
 						<tr>
 				<td>
-					<span class="badge rank1">{$k}</span>
+					<span class="badge rank{$k}">{$k}</span>
 				</td>
 				<td>
-					{$vo.nickname}	</td>
+					<php>$info=get_userinfo_nocache($vo['uid']);emoji_html($info['nickname']);</php>	</td>
 				<td>
-					{$vo.jf}				</td>
+					{$vo.score}				</td>
 			</tr>
 			</volist>
 			
@@ -186,16 +193,17 @@
 		
 	</div>
 
-		<div class="ad_wrap">
-		<section id="1_367" class="yead_editor" label="Copyright © 2015 Yead All Rights Reserved." style="margin: 5px auto; white-space: normal;"><section class="yead_bgc" style="font-size: 30px; padding: 30px; text-transform: uppercase; text-align: center; color: rgb(255, 255, 238); border-color: rgb(192, 135, 222); background: rgb(255, 57, 31);"><p class="yead_color" style="color: rgb(255, 57, 31); text-shadow: rgba(0, 0, 1, 0.4) -1px -1px 1px, rgba(255, 255, 254, 0.498039) 1px 1px 1px; font-weight: 800; margin-top: 0px; margin-bottom: 0px; border-color: rgb(159, 30, 225);"><span style="font-size: 20px;"><strong><span style="font-size: 20px; color: rgb(255, 255, 255);">景圣生活签到测试版</span></strong></span></p></section></section>	</div>
-	</div>
+
 <!--<nav class="navbar navbar-default navbar-fixed-bottom">
 	<div class="container" style="text-align: center">
 		<button type="button" style="width: 50%" class="btn btn-success navbar-btn">分享</button>
 	</div>
 </nav>-->
-					<div class="text-center footer" style="margin:10px 0; width:100%; text-align:center; word-break:break-all;">
-								&nbsp;&nbsp;			</div>
+					<div class="text-center footer" style=" width:100%; text-align:center; word-break:break-all;color:#fff">
+								
+                                            <div style="margin-top:10px">技术支持：景圣科技·Ekey.Lee</div>
+                                            <div style="margin-top:0px">经营范围：网站制作、PHP源码开发、程序设计</div>
+                                        </div>
 						<script>require(['bootstrap']);</script>
 	</div>
 	<style>
