@@ -10,13 +10,15 @@ class WeixinAddonModel extends WeixinModel{
 	function reply($dataArr, $keywordArr = array()) {
 		$config = getAddonConfig ( 'Sign' ); // 获取后台插件的配置参数	
 		//dump($config);
+                define('APPID','wxf645e5f39d850ad8');               
                $param['openid']=get_openid();
                $param['token']=get_token();
-               S('openid',$param['openid']);
-               S('token',$param['token']);
                $nowdate=date('Y-m-d',time());
-              $url=addons_url("Sign://Sign/index");
-             $link='<a href="'.$url.'">点击查看排行</a>'."\n";
+               $url=addons_url("Sign://Sign/index");
+               define('REDIRECT_URI',  urlencode($url));
+               $urla='https://open.weixin.qq.com/connect/oauth2/authorize?appid='.APPID.'&redirect_uri='.REDIRECT_URI.'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+              
+             $link='<a href="'.$urla.'">点击查看排行</a>'."\n";
                $user_info=M('public_follow')->where($param)->find();
                $sign_info_sql=array(
                    'token'=>$param['token'],
@@ -36,7 +38,7 @@ class WeixinAddonModel extends WeixinModel{
                $sign_all_info=M('Sign')->where($sign_info_sql)->order('id DESC')->find();
                $sign_ranking=M('Sign')->order('signtime DESC')->select();
                $sign_time=date('Y-m-d',$sign_all_info['signtime']);
-               $sign_cache=M('cache_sign')->where($param)->find();
+               $sign_cache=M('cache_sign')->where('uid='.$user_info['uid'])->find();
                if($sign_time==$date_time_now){        
                    
                    $content='你已经签到了！'."\n"."\n".date('Y-m-d H:i:s',$sign_all_info['signtime'])."\n"."\n".$link."\n".'连续签到：'.$sign_cache['signlink'].'天'."\n".'累计签到：'.$sign_cache['signcount'].'天';
@@ -55,6 +57,7 @@ class WeixinAddonModel extends WeixinModel{
                   $sign_cache=M('cache_sign')->where($uid)->find();
                  
                   $save=M('user')->where($uid)->save($save_data);
+                  $score_cache=M('user')->where($uid)->find();
                   $add=M('Sign')->data($sign_info_sql_add)->add();
                   $sign_link=  sign_link($param['openid']);
                   $sign_rank=  sign_ranking($sign_info_sql);
@@ -62,8 +65,8 @@ class WeixinAddonModel extends WeixinModel{
                        $sign_count=array(
                            'signlink'   =>  $sign_link,
                            'signcount'   =>  $sign_rank,
-                           'uid'    =>  $user_info['uid']
-                           
+                           'uid'    =>  $user_info['uid'],
+                           'score'=> $score_cache['score']
                        );
                     
                     $sign_cache_add=M('cache_sign')->data($sign_count)->add();
@@ -73,8 +76,10 @@ class WeixinAddonModel extends WeixinModel{
                           'signlink'    =>$sign_link,
                           'signcount'   =>$sign_rank,
                           'uid'         =>$user_info['uid'],
+                          'score'       =>$score_cache['score']
                       );
-                      $sign_cache_save=M('cache_sign')->where($param)->save($sign_count);
+                      
+                      $sign_cache_save=M('cache_sign')->where($uid)->save($sign_count);
                   }
                   $sign_end_info=M('sign')->where($param)->order('id DESC')->find();
                  $sign_end_cache=M('cache_sign')->where($uid)->find();

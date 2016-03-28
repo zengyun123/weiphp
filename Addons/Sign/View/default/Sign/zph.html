@@ -138,14 +138,16 @@
 		<div class="pdetail">
 			<div class="img-circle">
 				<a>
-                                    <php>$headimg=get_userinfo($user_self['uid']);</php>
-				<img src="" onerror="this.src='<php>echo $headimg['headimgurl']</php>'">
+				<img src="" onerror="this.src='{$oauth_info['headimgurl']}'">
 				</a>
 			</div>
 			<div style=" font-size: 16px;">
 				<span class="name">
                                     <div style="margin-top:25">
-                                <div style="color: #f00;"> <php>$nickname=get_userinfo_nocache($user_self['uid']);emoji_html($nickname['nickname']);</php></div>
+                                <div style="color: #f00;"> 
+                                    <php>emoji_html($oauth_info['nickname']);</php>
+                                </div>
+                                         <div style='color:#ffffff;font-size:12px'>{$message}</div>
                                     </div>
 				</span>
 			</div>

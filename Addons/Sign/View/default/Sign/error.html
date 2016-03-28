@@ -144,8 +144,8 @@
 		<div class="pdetail">
 			<div class="img-circle">
 				<a>
-                                  
-                                     <img src="" onerror="this.src='{$oauth_info['headimgurl']}'">
+                                   
+                                     <img src="" onerror="this.src='{$userinfo['headimgurl']}'">
 				</a>
 			</div>
 
@@ -153,20 +153,20 @@
 				<span class="name">
                                     <div style="color: #f00;">
                                         <div style="margin-top:25">
-                                          
-                                        <php>emoji_html($oauth_info['nickname']);</php>
+                                          {$userinfo['nickname']}
+                                      
                                         </div>
-                                        <div style='color:#ffffff;font-size:12px'>{$message}</div>
+                                        <div style='color:#ffffff;font-size:12px'>(状态:未关注)</div>
                                     </div>
 									</span>
 			</div>
 		</div>
 
 		<div class="head-nav">
-			<div class="head-nav-list">今日排名<span>第{$ranking}名</span></div>
-			<div class="head-nav-list">今日奖励<span>10积分</span></div>
-			<div class="head-nav-list">连续签到<span>{$sign_info['signlink']}天</span></div>
-			<div class="head-nav-list">累计签到<span>{$sign_info['signcount']}次</span></div>
+			<div class="head-nav-list">今日排名<span>第名</span></div>
+			<div class="head-nav-list">今日奖励<span>积分</span></div>
+			<div class="head-nav-list">连续签到<span>天</span></div>
+			<div class="head-nav-list">累计签到<span>次</span></div>
 		</div>
 	</div>
 
@@ -174,9 +174,9 @@
 	<div class="rank-list-wrap">
 	  <div class="btn-group-top-box">
 			<div class="btn-group btn-group-top">
-				<a href="#" class="btn btn-default active">今日排行榜</a>
-				<a href="<php>echo addons_url('Sign://Sign/zph',$param);</php>" class="btn btn-default ">积分排行榜</a>
-				<a href="<php>echo addons_url('Sign://Sign/lq',$param);</php>" class="btn btn-default ">连签排行榜</a>
+				<a  class="btn btn-default active">今日排行榜</a>
+				<a  class="btn btn-default ">积分排行榜</a>
+				<a  class="btn btn-default ">连签排行榜</a>
 			</div>
 		</div>
 				<table class="table" style="margin-bottom:60px">

@@ -37,35 +37,59 @@ class SignController extends AddonsController{
 	}
         function index(){ 
             echo '<meta charset="utf-8">';
-            $uid=I('uid');
-            $uid_data=array(
-                'uid'=>$uid,
-            );
-            $userinfo=M('public_follow')->where($uid_data)->find();        
-            $param['token']=$userinfo['token'];
-            $param['openid']=$userinfo['openid'];
-            $date=date('Y-m-d',time());
-            $date_arr=array(
-                'token'=>$param['token'],
-                'date'=>$date,
-            );
-            $sign_list=M('sign')->where($date_arr)->order('signtime ASC')->limit('10')->select();            
-            $sign_self=M('cache_sign')->where($uid_data)->find();
-            $this->assign('user_self',$sign_self);
-            $this->assign('sign_list',$sign_list);
-            $this->assign('ranking',sign_ranking_all($uid,$param['token']));
-
-        $this->display();
+            $oauth_unionid= wxauth_unionid('http://wechat.ekeylee.com/index.php?s=/addon/Sign/Sign/index.html');
+            $info['unionid']=$oauth_unionid['unionid'];
+            $_userinfo=M('user')->where($info)->find();
+        
+            if($_userinfo){                
+                $userinfo=M('public_follow')->where('uid='.$_userinfo['uid'])->find();              
+                $param['token']=$userinfo['token'];
+                $date=date('Y-m-d',time());
+                $param['date']=$date;
+                $sign_list=M('sign')->where($param)->order('signtime ASC')->limit('10')->select();
+                foreach($sign_list as $k=>$v){ 
+                if(array_search($_userinfo['uid'],$v,true)==NULL){
+                    $this->assign('message','(你今日没有上榜!)');
+                    }
+               }
+                $this->assign('sign_list',$sign_list);//今日签到排名 区分了token
+                $sign_info=M('cache_sign')->where('uid='.$_userinfo['uid'])->find();
+                $this->assign('sign_info',$sign_info);//个人连签和积分详细情况
+                $this->assign('oauth_info',$oauth_unionid);
+                $ranking=  sign_ranking_all($_userinfo['uid'],$param['token']);
+                $this->assign('ranking',$ranking);
+                $this->display();      
+            }else{
+                $this->assign('info',$oauth_unionid);
+                $param['token']='gh_8fc878db07c6';
+                $date=date('Y-m-d',time());
+                $param['date']=$date;
+                $sign_list=M('sign')->where($param)->order('signtime ASC')->limit('10')->select();
+  
+                $this->assign('userinfo',$oauth_unionid);
+                $this->assign('sign_list',$sign_list);//今日签到排名 区分了token  
+               $this->display('error');
+            }                      
         }
         
         function zph(){
            echo '<meta charset="utf-8">';
-           $uid['uid']=I('uid');
+            $oauth_unionid= wxauth_unionid('http://wechat.ekeylee.com/index.php?s=/addon/Sign/Sign/zph.html');
+            $info['unionid']=$oauth_unionid['unionid'];
+           $_userinfo=M('user')->where($info)->find();
+           $uid['uid']=$_userinfo['uid'];
            $userinfo=M('public_follow')->where($uid)->find(); 
            $param['token']=$userinfo['token'];
            $cache_sign=M('cache_sign')->where($param)->order('score DESC')->limit('10')->select();
+                foreach($sign_list as $k=>$v){ 
+                if(array_search($_userinfo['uid'],$v,true)==NULL){
+                    $this->assign('message','(你今日没有上榜!)');
+                    }
+               }
+           
             $sign_self=M('cache_sign')->where($uid)->find();
             $this->assign('user_self',$sign_self);
+            $this->assign('oauth_info',$oauth_unionid);
            $this->assign('zph_list',$cache_sign);
            $this->assign('ranking',sign_ranking_all($uid['uid'],$userinfo['token']));
             $this->display();
