@@ -64,19 +64,21 @@ class WeixinAddonModel extends WeixinModel{
                    if(empty($sign_cache)){
                        $sign_count=array(
                            'signlink'   =>  $sign_link,
-                           'signcount'   =>  $sign_rank,
-                           'uid'    =>  $user_info['uid'],
-                           'score'=> $score_cache['score']
+                           'signcount'  =>  $sign_rank,
+                           'uid'        =>  $user_info['uid'],
+                           'score'      =>  $score_cache['score'],
+                           'token'      =>  $param['token']
                        );
                     
                     $sign_cache_add=M('cache_sign')->data($sign_count)->add();
                
                   }else{
                       $sign_count=array(
-                          'signlink'    =>$sign_link,
-                          'signcount'   =>$sign_rank,
-                          'uid'         =>$user_info['uid'],
-                          'score'       =>$score_cache['score']
+                          'signlink'    =>  $sign_link,
+                          'signcount'   =>  $sign_rank,
+                          'uid'         =>  $user_info['uid'],
+                          'score'       =>  $score_cache['score'],
+                          'token'       =>  $param['token']
                       );
                       
                       $sign_cache_save=M('cache_sign')->where($uid)->save($sign_count);

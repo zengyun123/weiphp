@@ -52,8 +52,10 @@ class SignController extends AddonsController{
                 if(array_search($_userinfo['uid'],$v,true)=='uid'){
                    
                    $this->assign('message','');
+                   break;
                     }else{
                          $this->assign('message','(你今日没有上榜!)');
+                         break;
                     }
                }
                 $this->assign('sign_list',$sign_list);//今日签到排名 区分了token
@@ -65,7 +67,7 @@ class SignController extends AddonsController{
                 $this->display();      
             }else{
                 $this->assign('info',$oauth_unionid);
-                $param['token']='gh_8fc878db07c6';
+                $param['token']='gh_8fc878db07c6';//指定了游客访问的公众号【景圣生活】
                 $date=date('Y-m-d',time());
                 $param['date']=$date;
                 $sign_list=M('sign')->where($param)->order('signtime ASC')->limit('10')->select();
@@ -84,12 +86,15 @@ class SignController extends AddonsController{
            $uid['uid']=$_userinfo['uid'];
            $userinfo=M('public_follow')->where($uid)->find(); 
            $param['token']=$userinfo['token'];
-           $cache_sign=M('cache_sign')->where($param)->order('score DESC')->limit('10')->select();
-                foreach($sign_list as $k=>$v){ 
+           $cache_sign=M('cache_sign')->where($param)->order('score DESC')->limit('10')->select();           
+                foreach($cache_sign as $k=>$v){ 
                 if(array_search($_userinfo['uid'],$v,true)=='uid'){
                     $this->assign('message','');
+                   
+                    break;
                     }else{
                      $this->assign('message','(你今日没有上榜!)');   
+                    break;
                     }
                }
            
@@ -103,7 +108,10 @@ class SignController extends AddonsController{
         
         function lq(){
             echo '<meta charset="utf-8">';
-            $uid['uid']=I('uid');
+            $oauth_unionid= wxauth_unionid('http://wechat.ekeylee.com/index.php?s=/addon/Sign/Sign/lq.html');
+            $info['unionid']=$oauth_unionid['unionid'];     
+            $_userinfo=M('user')->where($info)->find();
+            $uid['uid']=$_userinfo['uid'];
             $userinfo=M('public_follow')->where($uid)->find();
             $param['token']=$userinfo['token'];
             $cache_sign=M('cache_sign')->where($param)->order('signlink DESC')->limit('10')->select();
