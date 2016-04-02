@@ -48,8 +48,12 @@ class SignController extends AddonsController{
                 $param['date']=$date;
                 $sign_list=M('sign')->where($param)->order('signtime ASC')->limit('10')->select();
                 foreach($sign_list as $k=>$v){ 
-                if(array_search($_userinfo['uid'],$v,true)==NULL){
-                    $this->assign('message','(你今日没有上榜!)');
+                    
+                if(array_search($_userinfo['uid'],$v,true)=='uid'){
+                   
+                   $this->assign('message','');
+                    }else{
+                         $this->assign('message','(你今日没有上榜!)');
                     }
                }
                 $this->assign('sign_list',$sign_list);//今日签到排名 区分了token
@@ -82,8 +86,10 @@ class SignController extends AddonsController{
            $param['token']=$userinfo['token'];
            $cache_sign=M('cache_sign')->where($param)->order('score DESC')->limit('10')->select();
                 foreach($sign_list as $k=>$v){ 
-                if(array_search($_userinfo['uid'],$v,true)==NULL){
-                    $this->assign('message','(你今日没有上榜!)');
+                if(array_search($_userinfo['uid'],$v,true)=='uid'){
+                    $this->assign('message','');
+                    }else{
+                     $this->assign('message','(你今日没有上榜!)');   
                     }
                }
            
